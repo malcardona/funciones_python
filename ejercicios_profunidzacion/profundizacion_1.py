@@ -38,9 +38,9 @@ determinar cual fue el número que más se repitió en esa tirada.
 Consultar los ejemplos vistos en clase en donde se realizó esta operación con "max"
 
 3) Una vez reconocido el número más repetido entre los 5 dados,
-debe guardar en una variable aparte llamda "contador_generala"
+debe guardar en una variable aparte llamada "contador_generala"
 cuantas veces se repitió hasta ahora el número más repetido. 
-Ese número será el candidato para busscar sacar generala.
+Ese número será el candidato para buscar sacar generala.
 Si por ejemplo salió 4-4-2-1-4, debe quedarse con esos tres "4",
 por lo canto el "contador_generala" valdrá 3, porque el primer número
 más repetido fue 4, y este número salio tres veces en la primera tirada.
@@ -75,6 +75,32 @@ import random
 
 # --------------------------------
 # Dentro de esta sección copiar y crear
+def ramdom_list(n_try_1):
+    try_1 = []
+    for n in range(n_try_1):
+        dice_r = random.randint(1, 6)
+        try_1.append(dice_r)
+    return try_1
+
+
+def max_rep(list):
+    if len(list) > 0:
+        max_rep = max(list, key=list.count)
+    else:
+        print('Lista vacia')
+        max_rep = 0
+    return max_rep
+
+def save_chosen(list, m_r):
+    n_list = []
+    for n in list:
+        if n == m_r:
+            n_list.append(n)
+    return n_list
+
+
+
+
 # todas las funciones que utilice
 
 
@@ -85,3 +111,76 @@ if __name__ == '__main__':
     # A partir de aquí escriba el código que
     # invoca a las funciones y resuelve el enunciado
     # Leer el enunciado con atención y consultar cualquier duda
+
+## --- Inicio del juego ---
+dices_ini = int(input('Cuantos Dados quieres lanzar:\n'))
+
+if dices_ini <= 2:
+    print('Muy pocos!')
+    dices_ini = 3
+elif dices_ini > 6:
+    print('6 es el número máxino de dados')
+    dices_ini = 6
+
+print('Jugaremos Generala con {} dados'.format(dices_ini))
+
+## --- Ronda 1 --- 
+try_1 = ramdom_list(dices_ini)
+
+print('Ronda 1: {}'.format(try_1))   
+
+#Eleccion del número que mas se repite
+choosen = max_rep(try_1)
+
+# Guardar el numero mas repetido en una nueva lista
+result = []
+save = save_chosen(try_1, choosen)
+result += save
+n_result = len(result)
+#print(result)
+
+#########################################
+if n_result == dices_ini:
+    print('Generala! {}'.format(result))
+#########################################
+    
+print('Deberas completar {} dados con el número {} para ganar!'.format(dices_ini, choosen))
+
+## --- Ronda 2 ---
+n_t2 = dices_ini - len(save)
+
+print('Se guardaran {} dados se lanzaran {} dados'.format(n_result, n_t2))
+
+try_2 = ramdom_list(n_t2)
+print('Ronda 2: {}'.format(try_2))  
+
+save = save_chosen(try_2, choosen)
+result += save
+n_result = len(result)
+#print(result)
+
+#########################################
+if n_result == dices_ini:
+    print('Generala! {}'.format(result))
+#########################################
+
+# --- Ronda Final ---
+n_t3 = n_t2 - len(save)
+
+print('Se guardaran {} dados se lanzaran {} dados'.format(n_result, n_t3))
+
+try_3 = ramdom_list(n_t3)
+print('Ronda Final: {}'.format(try_3))  
+
+save = save_chosen(try_3, choosen)
+result += save
+n_result = len(result)
+#print(result)
+
+#####################################################################
+if n_result == dices_ini:
+    print('Generala! {}'.format(result))
+else:
+    print('Resultado Final: {} suerte a la próxima!'.format(result))
+######################################################################
+
